@@ -7,7 +7,8 @@
 - [x] Business onboarding
 - [x] Database (Phase 1 - all 11 tables)
 - [x] Multi-tenancy foundation (BelongsToTenant, TenantScope, TenantContext, IdentifyTenant)
-- [ ] Products
+- [x] Categories (Phase 2A)
+- [x] Products (Phase 2A)
 - [ ] Customers
 - [ ] Orders
 - [ ] WhatsApp webhook
@@ -22,7 +23,8 @@
 
 ## Current task
 
-Phase 1 complete including mobile responsiveness. Ready to begin Phase 2 (Catalog & Pricing Engine) on approval.
+Phase 2A (Catalog Management) complete. Products and Categories implemented with full tenant isolation, SKU/slug uniqueness validation, image upload, and safe-delete rules. 
+Ready to begin Phase 2B (Order Management) on approval.
 
 ## Known issues
 
@@ -35,23 +37,16 @@ None.
 - TenantScope applies automatically to all models using BelongsToTenant trait.
 - business_id is NEVER trusted from the client - always resolved from TenantContext.
 - IdentifyTenant middleware redirects business-less users to /onboarding on every request.
-
-## Last completed migration
-
-2026_07_31_000011_create_order_audits_table (all 11 Phase 1 migrations)
+- Category deletion is blocked if products are attached.
+- Product deletion is converted to deactivation if order items exist to preserve historical order data.
 
 ## Last completed feature
 
-Phase 1: Authentication, Business Onboarding, Multi-Tenancy Foundation, Database Schema
+Phase 2A: Catalog Management (Categories, Products, Images, Prices)
 
-## Phase 1 Test Results
+## Phase 2A Test Results
 
-Tests:    7 passed (15 assertions)
-Duration: 3.19s
+Tests:    28 passed (62 assertions)
 
-- ✓ login screen can be rendered
-- ✓ users can register
-- ✓ user without business is redirected to onboarding
-- ✓ user can create business and complete onboarding
-- ✓ the application redirects unauthenticated users
-- ✓ business a cannot access business b data
+- CategoryManagementTest: 12 passed
+- ProductManagementTest: 16 passed

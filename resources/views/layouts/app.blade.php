@@ -72,6 +72,8 @@
 
                 {{-- Navigation --}}
                 <nav class="p-3 space-y-0.5 flex-1">
+
+                    {{-- Dashboard --}}
                     <a href="{{ route('dashboard') }}"
                        @click="sidebarOpen = false"
                        class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors
@@ -81,21 +83,52 @@
                         </svg>
                         Dashboard
                     </a>
-                    {{-- Future nav items — disabled --}}
+
+                    {{-- Catalog section label --}}
+                    <p class="px-3 pt-4 pb-1 text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">Catalog</p>
+
+                    {{-- Categories (Phase 2A — active) --}}
+                    <a href="{{ route('categories.index') }}"
+                       @click="sidebarOpen = false"
+                       class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors
+                              {{ request()->routeIs('categories*') ? 'bg-[#16A34A] text-white' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]' }}">
+                        <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                        Categories
+                    </a>
+
+                    {{-- Products (Phase 2A — active) --}}
+                    <a href="{{ route('products.index') }}"
+                       @click="sidebarOpen = false"
+                       class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors
+                              {{ request()->routeIs('products*') ? 'bg-[#16A34A] text-white' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]' }}">
+                        <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                        Products
+                    </a>
+
+                    {{-- Coming soon section --}}
+                    <p class="px-3 pt-4 pb-1 text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">Coming Soon</p>
+
+                    {{-- Disabled nav items for future phases --}}
                     @foreach ([
-                        ['icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', 'label' => 'Orders', 'phase' => '2'],
-                        ['icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'label' => 'Customers', 'phase' => '2'],
-                        ['icon' => 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', 'label' => 'Products', 'phase' => '2'],
-                        ['icon' => 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', 'label' => 'WhatsApp', 'phase' => '3'],
+                        ['icon' => 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', 'label' => 'Orders',    'phase' => 'P2B'],
+                        ['icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'label' => 'Customers', 'phase' => 'P2B'],
+                        ['icon' => 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', 'label' => 'WhatsApp', 'phase' => 'P3'],
                     ] as $item)
-                    <span class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-[#64748B] opacity-50 cursor-not-allowed select-none">
+                    <span class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-[#94A3B8] cursor-not-allowed select-none">
                         <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
                         </svg>
                         <span class="truncate">{{ $item['label'] }}</span>
-                        <span class="ml-auto text-[10px] bg-[#E2E8F0] text-[#64748B] rounded px-1 shrink-0">P{{ $item['phase'] }}</span>
+                        <span class="ml-auto text-[10px] bg-[#F1F5F9] text-[#94A3B8] rounded px-1.5 py-0.5 shrink-0">{{ $item['phase'] }}</span>
                     </span>
                     @endforeach
+
                 </nav>
             </div>
 

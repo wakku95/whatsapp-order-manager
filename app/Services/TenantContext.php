@@ -15,17 +15,26 @@ class TenantContext
 
     public static function getTenant(): ?Business
     {
-        return static::$tenant;
+        if (static::$tenant !== null) {
+            return static::$tenant;
+        }
+
+        if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->business_id !== null) {
+            static::$tenant = \Illuminate\Support\Facades\Auth::user()->business;
+            return static::$tenant;
+        }
+
+        return null;
     }
 
     public static function getTenantId(): ?int
     {
-        return static::$tenant?->id;
+        return static::getTenant()?->id;
     }
 
     public static function hasTenant(): bool
     {
-        return static::$tenant !== null;
+        return static::getTenant() !== null;
     }
 
     public static function clear(): void
