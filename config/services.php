@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+    'whatsapp' => [
+        'app_secret' => env('WHATSAPP_APP_SECRET'),
+        'verify_token' => env('WHATSAPP_VERIFY_TOKEN'),
+        'confirmation_ttl_minutes' => (int) env('WHATSAPP_CONFIRMATION_TTL_MINUTES', 15),
+    ],
+
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY'),
+        'model' => env('GEMINI_MODEL', 'gemini-3.5-flash'),
+    ],
+
 ];

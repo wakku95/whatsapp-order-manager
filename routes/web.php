@@ -9,6 +9,14 @@ use App\Livewire\Onboarding\CreateBusiness;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Webhook\WhatsAppWebhookController;
+use App\Http\Middleware\VerifyWhatsAppSignature;
+
+// ---- Webhook Routes ---------------------------------------------------------
+Route::get('/webhook/whatsapp', [WhatsAppWebhookController::class, 'verify']);
+Route::post('/webhook/whatsapp', [WhatsAppWebhookController::class, 'handle'])
+    ->middleware(VerifyWhatsAppSignature::class);
+
 // ---- Guest Routes -----------------------------------------------------------
 Route::middleware('guest')->group(function () {
     Route::get('/login',    Login::class)->name('login');

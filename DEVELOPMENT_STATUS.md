@@ -23,8 +23,13 @@
 
 ## Current task
 
-Phase 2B (Order Service + Server-Side Pricing Engine) is completely backend implemented. `OrderService` encapsulates transactional creation, price locking, and stock deduction perfectly scoped to tenants.
-Ready to begin Phase 3 (WhatsApp/AI Integration or Manual Order UI) on approval.
+## Phase 4: AI Order Understanding & Product Matching — **COMPLETED**
+- **Goal:** Allow customers to order naturally via WhatsApp using AI intent extraction, deterministic product matching, and local state management.
+- **Key Features:** `GeminiAIService` (configurable `gemini-3.5-flash`), `AIOrderParser` with strict Laravel validation, `ProductMatcher` (4-stage deterministic matching), `OrderConversationHandler` (state machine, TTL expiration, price staleness check, local fast-track YES/NO & clarification, and authoritative `OrderService` execution).
+- **Test Coverage:** `AIOrderParserTest` (5 tests), `ProductMatcherTest` (4 tests), `OrderConversationHandlerTest` (6 tests)
+- **Status:** Complete.
+
+## Phase 5: Advanced Features & Production Readiness — **NOT STARTED**
 
 ## Known issues
 
@@ -39,16 +44,17 @@ None.
 - IdentifyTenant middleware redirects business-less users to /onboarding on every request.
 - Category deletion is blocked if products are attached.
 - Product deletion is converted to deactivation if order items exist to preserve historical order data.
-- **Stock Behavior:** Stock is decremented explicitly during `OrderService::createOrder()` inside a secure database transaction. Stock restoration for cancelled orders is not implemented in this phase.
-- **Order Pricing:** Prices provided by any UI or AI are categorically ignored. The server pulls real-time database prices and locks them into `order_items` during creation to ensure historical accuracy.
+- **Stock Behavior:** Stock is decremented explicitly during `OrderService::createOrder()` inside a secure database transaction.
+- **Order Pricing Authority:** Prices provided by any UI or AI are categorically ignored. The server pulls real-time database prices and locks them into `order_items` during creation to ensure historical accuracy. `price_at_display` is strictly a temporary snapshot to detect price changes before confirmation.
+- **AI Integration:** AI returns raw structured intent data only (no customer-facing reply text, no prices, no product IDs). All customer-facing messages are built by Laravel. Deterministic responses (YES/NO/clarifications) are fast-tracked locally without AI calls.
 
 ## Last completed feature
 
-Phase 2B: Order Service + Server-Side Pricing Engine (Backend Only)
+Phase 4: AI Order Understanding & Product Matching
 
 ## Test Results
 
-Tests: 49 passed, 0 failed (118 assertions)
+Tests: 73 passed, 0 failed (198 assertions)
 
 - ExampleTest (Unit): 1 passed
 - AuthenticationTest: 3 passed
@@ -58,3 +64,8 @@ Tests: 49 passed, 0 failed (118 assertions)
 - OrderManagementTest: 14 passed
 - ProductManagementTest: 16 passed
 - TenantIsolationTest: 1 passed
+- WhatsAppWebhookTest: 5 passed
+- WhatsAppMessageServiceTest: 4 passed
+- AIOrderParserTest: 5 passed
+- ProductMatcherTest: 4 passed
+- OrderConversationHandlerTest: 6 passed
