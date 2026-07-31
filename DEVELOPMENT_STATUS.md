@@ -22,7 +22,7 @@
 
 ## Current task
 
-Phase 1 complete. Ready to begin Phase 2 (Catalog & Pricing Engine) on approval.
+Phase 1 complete including mobile responsiveness. Ready to begin Phase 2 (Catalog & Pricing Engine) on approval.
 
 ## Known issues
 
